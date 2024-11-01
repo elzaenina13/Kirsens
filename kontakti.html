@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kirsens - Warm Up & Cool Down</title>
+    
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init({
+                publicKey: "rgaBOh-1y2GEwy7gm",
+            });
+        })();
+    </script>
+    <script type="text/javascript">
+        window.addEventListener("load", () => {
+            document.getElementById("messageForm").addEventListener("submit", function(event) {
+                event.preventDefault();
+
+                const name = document.getElementById("name").value;
+                const email = document.getElementById("email").value;
+                const subject = document.getElementById("subject").value;
+                const message = document.getElementById("message").value;
+                const templateParams = {
+                    from_name: name,
+                    from_email: email,
+                    subject: subject,
+                    message: message
+                };
+                emailjs.send("service_8gprqca", "template_g9lm8ec", templateParams)
+                    .then(function(response) {
+                        console.log(templateParams);
+                        console.log("SUCCESS!", response.status, response.text);
+                        alert("Message sent successfully!");
+                    }, function(error) {
+                        console.log("FAILED...", error);
+                        alert("Message failed to send. Please try again later.");
+                    });
+                });
+        })
+    </script>
+    </head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">
+            <img class ="logo1" src="logo-no-background.png">
+            </h1>
+            <ul class="nav-links">
+                <li><a href="sak.html">Sākums</a></li>
+                <li><a href="liet.html">Lietošana</a></li>
+                <li><a href="about.html">Par mums</a></li>
+                <li><a href="kontakti.html">Kontakti</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+    <header class="contact-header">
+        <div class="header-content">
+            <h1 class="h11">Mūsu sociālie tīkli</h1>
+            <p class="h11">Būsim priecīgi atbildēt uz jūsu jautājumiem!</p>
+            <ul class="h11">
+                <li class="arbildi"><img src="insta.webp"> @kirsens.smu</li>
+                <li class="arbildi"><img src="face.png"> Kirsens</li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="contact-info">
+        <div class="header-content">
+            <h2 class="h11">Sazinies ar mums!</h2>
+            <p style="color: #333;">
+                Ja jums ir kādi jautājumi vai ieteikumi, mēs esam šeit, lai palīdzētu!
+                
+                </p>
+            <ul class="h11">
+                <li class="arbildi"><img src="mail.png"> kirsens.smu@gmail.com</li>
+                <li class="arbildi"><img src="tel.png"> +371 29 269 565</li>
+            </ul>
+        </div>
+    </section>
+    <div class="form-container">
+      <h2>Nosūti ziņu!</h2>
+      <form id="messageForm">
+        <label for="name">Vārds:</label>
+        <input type="text" id="name" name="name" required><br><br>
+    
+        <label for="email">Epasts:</label>
+        <input type="email" id="email" name="email" required><br><br>
+    
+        <label for="subject">Temats:</label>
+        <input type="text" id="subject" name="subject" required><br><br>
+    
+        <label for="message">Ziņojums:</label>
+        <textarea id="message" name="message" rows="4" required></textarea><br><br>
+    
+        <button type="submit" onclick="sendMail()">Nosūtīt ziņojumu</button>
+      </form>
+    </div>
+    <footer class="footer">
+        <p>&copy; 2024 Kirsens. All Rights Reserved.</p>
+    </footer>
+
+    <!-- JavaScript for Mobile Navbar Toggle -->
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const navbar = document.querySelector('.navbar');
+
+        hamburger.addEventListener('click', () => {
+            navbar.classList.toggle('active');
+        });
+    </script>
+      
+    </html>
+    
+</body>
+</html>

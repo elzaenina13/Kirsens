@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kirsens - Warm Up & Cool Down</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+    <style>
+        
+        .containerorder {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        button {
+            background-color: #A62A6C;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #A62A6C;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo"><img class="logo1" src="logo-no-background.png" alt="Logo"></h1>
+            <ul class="nav-links">
+                <li><a href="sak.html">Sākums</a></li>
+                <li><a href="liet.html">Lietošana</a></li>
+                <li><a href="about.html">Par mums</a></li>
+                <li><a href="kontakti.html">Kontakti</a></li>
+            </ul>
+            
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="containerorder">
+        <h1>Iegādājies savu kirsenu!</h1>
+        <form id="purchase-form" onsubmit="return handlePurchase(event)">
+            <label for="name">Vārds:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Epasts:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="size">Izvēlēties izmēru:</label>
+            <select id="size" name="size" onchange="updatePrice()">
+                <option value="12">Mazais - 12.00</option>
+                <option value="20">Lielais - 20.00</option>
+            </select>
+
+            <label for="quantity">Daudzums:</label>
+            <input type="number" id="quantity" placeholder="Enter quantity" min="1" value="1" onchange="updatePrice()">
+
+            <p class="total-price">Kopā: $<span id="total-price">20.00</span></p>
+            <button type="submit" id="checkout-button">Pirkt</button>
+        </form>
+        <div id="response-message"></div>
+    </div>
+
+    <script>
+        
+        emailjs.init("rgaBOh-1y2GEwy7gm"); 
+
+        function updatePrice() {
+            const sizeSelect = document.getElementById('size');
+            const quantityInput = document.getElementById('quantity');
+            const totalPriceSpan = document.getElementById('total-price');
+
+            const sizePrice = parseFloat(sizeSelect.value);
+            const quantity = parseInt(quantityInput.value);
+            const totalPrice = (sizePrice * quantity).toFixed(2);
+
+            totalPriceSpan.textContent = totalPrice;
+        }
+
+        function handlePurchase(event) {
+            event.preventDefault(); 
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const size = document.getElementById('size').options[document.getElementById('size').selectedIndex].text;
+            const quantity = document.getElementById('quantity').value;
+            const totalPrice = document.getElementById('total-price').textContent;
+
+            
+            emailjs.send("service_8gprqca", "template_g9lm8ec", {
+                name: name,
+                email: email,
+                size: size,
+                quantity: quantity,
+                totalPrice: totalPrice
+            })
+            .then(function(response) {
+                console.log('SUCCESS!', response.status, response.text);
+                document.getElementById('response-message').textContent = `Paldies, ${name}! Jūsu pasūtījums ir veikts.`;
+                document.getElementById('purchase-form').reset();
+                updatePrice();
+            }, function(error) {
+                console.log('FAILED...', error);
+                document.getElementById('response-message').textContent = 'Atvainojiet, radās kļūda, sūtot pasūtījumu.';
+            });
+        }
+    </script>
+</body>
+</html>
